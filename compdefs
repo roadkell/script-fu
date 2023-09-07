@@ -1,0 +1,87 @@
+# Utility functions and aliases for zsh completion definitions
+# https://github.com/roadkell/script-fu
+
+# Print '_comps' associative array in human-readable form
+# https://stackoverflow.com/a/40014760/4773752
+comps() {
+	for command completion in ${(kv)_comps:#-*(-|-,*)}; do
+		printf "%-32s %s\n" $command $completion
+	done | sort
+}
+
+# The following function is similar to the where builtin, but looks for files
+# in $FPATH. It finds functions that are loadable from a file of the same name.
+# https://unix.stackexchange.com/a/726854/303129
+# https://unix.stackexchange.com/a/421326/303129
+whfpath() {
+	emulate -L zsh
+	local name locations ret=0
+	for name; do
+		locations=($^fpath/$name(N))
+		if (($#locations != 0)); then
+			print -Dl -- "${locations[@]}"
+		else
+			ret=1
+		fi
+	done
+	return $ret
+}
+
+# Same for $PATH
+whpath() {
+	emulate -L zsh
+	local name locations ret=0
+	for name; do
+		locations=($^path/$name(N))
+		if (($#locations != 0)); then
+			print -Dl -- "${locations[@]}"
+		else
+			ret=1
+		fi
+	done
+	return $ret
+}
+
+# Find the compdef file associated with given command
+# https://unix.stackexchange.com/a/509944/303129
+whcomp() {
+	whfpath $_comps[$1]
+}
+
+# List all compdef files - those in $FPATH, which are named like '_filename'
+compdefl() {
+	emulate -L zsh
+	local locations
+	locations=($^fpath/_[^_]*(N))
+	print -l -- "${locations[@]}" | sort
+}
+# TODO: add version with filtered out OS-preinstalled compdefs
+
+# Same, but sorted by filename, instead of fullpath
+compdefs() {
+	compdefl | xargs exa -lF --color=always --color-scale --icons
+}
+
+# Print $FPATH dirs one-by-line
+fpaths() {
+	emulate -L zsh
+	local locations
+	locations=($^fpath)
+	print -l -- "${locations[@]}" | sort
+}
+
+# Same for $PATH
+paths() {
+	emulate -L zsh
+	local locations
+	locations=($^path)
+	print -l -- "${locations[@]}" | sort
+}
+
+# For colon-separated arrays that don't have zsh-style array counterparts
+# https://stackoverflow.com/a/44524309/4773752
+colons2newlines() {
+	while read -rd ':' p; do
+		echo "$p"
+	done <<< "$1:"
+}

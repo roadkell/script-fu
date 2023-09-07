@@ -1,4 +1,5 @@
 # Utility functions and aliases for zsh completion definitions
+# This file should be sourced (in .zshrc, for example).
 # https://github.com/roadkell/script-fu
 
 # Print '_comps' associative array in human-readable form

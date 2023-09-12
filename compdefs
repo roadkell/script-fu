@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+#
 # Utility functions and aliases for zsh completion definitions
 # This file should be sourced (in .zshrc, for example).
 # https://github.com/roadkell/script-fu

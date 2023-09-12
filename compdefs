@@ -10,7 +10,7 @@ comps() {
 	done | sort
 }
 
-# The following function is similar to the where builtin, but looks for files
+# The following function is similar to the 'where' builtin, but looks for files
 # in $FPATH. It finds functions that are loadable from a file of the same name.
 # https://unix.stackexchange.com/a/726854/303129
 # https://unix.stackexchange.com/a/421326/303129
@@ -58,7 +58,7 @@ compdefl() {
 }
 # TODO: add version with filtered out OS-preinstalled compdefs
 
-# Same, but sorted by filename, instead of fullpath
+# Same, but sorted by filename (instead of fullpath) & beautified with 'exa'
 compdefs() {
 	compdefl | xargs exa -lF --color=always --color-scale --icons
 }

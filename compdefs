@@ -60,9 +60,9 @@ compdefl() {
 }
 # TODO: add version with filtered out OS-preinstalled compdefs
 
-# Same, but sorted by filename (instead of fullpath) & beautified with 'exa'
+# Same, but sorted by filename (instead of fullpath) & beautified with 'eza'
 compdefs() {
-	compdefl | xargs exa -lF --color=always --color-scale --icons
+	compdefl | xargs eza -laFho --group-directories-first --color=always --color-scale --icons --hyperlink
 }
 
 # Print $FPATH dirs one-by-line
